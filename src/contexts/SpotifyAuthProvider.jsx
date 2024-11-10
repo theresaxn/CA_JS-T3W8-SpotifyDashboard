@@ -63,7 +63,7 @@ export function SpotifyAuthProvider({children}) {
 		params.append("grant_type", "authorization_code");
 		params.append("code", code);
         // params.append("redirect_uri", process.env.SPOTIFY_REDIRECT_URI)
-		params.append("redirect_uri", "http://localhost:5173/spotifycallback");
+		params.append("redirect_uri", import.meta.env.VITE_SPOTIFY_CALLBACK);
 		params.append("code_verifier", verifier);
         // https://api.spotify.com/auth?client_id=XXXXXXXXX&code=XXXXXXXXX
 
