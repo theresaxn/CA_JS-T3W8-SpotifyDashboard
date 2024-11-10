@@ -2,8 +2,8 @@
 
 ### Spotify Stats Dashboard 
 
-#### Content Data / Global State
-- Spotify API Content Provider
+#### Context Data / Global State
+- Spotify API Context Provider
     - Async reducer
         - Endpoints for data handled in a switch statement
         - Save endpoint responses to state
