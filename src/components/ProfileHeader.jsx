@@ -1,7 +1,7 @@
 import { useSpotifyProfileData } from "../contexts/SpotifyProfileProvider";
 
 export function ProfileHeader() {
-    let profileData = useSpotifyProfileData();
+    let {profileData} = useSpotifyProfileData();
 
     if (profileData.id) {
         return (
@@ -9,7 +9,7 @@ export function ProfileHeader() {
                 <h1>
                     Spotify Stats for {profileData.display_name}
                 </h1>
-                <img src={profileData.images[0].url} />
+                {profileData.images.length > 0 && <img src={profileData.images[0].url} />}
             </div>
         )
     } else {
