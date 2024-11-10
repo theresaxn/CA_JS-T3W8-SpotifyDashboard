@@ -1,4 +1,4 @@
-## T3W8 Tue
+## T3W8
 
 ### Spotify Stats Dashboard 
 

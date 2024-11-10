@@ -14,6 +14,7 @@ export function useSpotifyAuthContext() {
 	return useContext(SpotifyAuthContext);
 }
 
+// clientId from app configured in Spotify developer dashboard
 const clientId = "9deb3f6272a14666ba47e91d395eac98";
 
 export function SpotifyAuthProvider({children}) {
@@ -42,7 +43,9 @@ export function SpotifyAuthProvider({children}) {
             const authData = await getAuthTokens(clientId, userAuthCode);
             setUserAuthData(authData);
             // // cleans up URL in the browser tab, removing Spotify auth data so it doesn't impace page load useEffect
-            window.history.replace(null, "Spotify Stats Boards", "/")
+			// URL before replaceState: localhost:5173/spotifycallback?code=XXXXXXXXX
+			// URL after replaceState: localhost:5173
+            window.history.replaceState(null, "Spotify Stats Boards", "/")
         }
 
         if (userAuthCode) {
