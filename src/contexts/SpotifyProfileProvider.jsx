@@ -1,4 +1,5 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
+import { useSpotifyAuthContext } from "./SpotifyAuthProvider";
 
 export const defaultProfileData = {
     userId: "",
@@ -14,10 +15,38 @@ export function useSpotifyProfileData() {
     return useContext(SpotifyProfileContext);
 }
 
-export function SpofileProfileProvider({children}) {
+export function SpotifyProfileProvider({children}) {
+    let [profileData, setProfileData] = useState(defaultProfileData);
+
+    // access auth data from SpotifyAuthProvider so can make more fetch requests
+    let {userAuthData} = useSpotifyAuthContext();
+
+    async function fetchProfileData(accessToken) {
+        const result = await fetch(
+            "https://api.spotify.com/v1/me",
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }
+        );
+        return await result.json();
+    };
+
+    useEffect(() => {
+        // if auth data has access token, start making fetch requests
+        if (userAuthData && userAuthData.access_token) {
+            fetchProfileData(userAuthData.access_token).then(profileData => {
+                setProfileData(profileData);
+            })
+        };
+        // whenever auth data changes, check and maybe make fetch request
+    }, [userAuthData]);
+
     return (
-        <SpofileProfileContext.Provider>
+        <SpotifyProfileContext.Provider value={profileData}>
             {children}
-        </SpofileProfileContext.Provider>
+        </SpotifyProfileContext.Provider>
     )
 };
